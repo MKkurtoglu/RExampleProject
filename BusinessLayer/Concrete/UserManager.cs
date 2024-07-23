@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Base.Aspects.Autofac.Validation;
 using BusinessLayer.ValidationRules.FluentValidation;
+using Base.EntitiesBase.Concrete;
 
 namespace BusinessLayer.Concrete
 {
@@ -27,7 +28,7 @@ namespace BusinessLayer.Concrete
 
         public IDataResult<User> Get(int id)
         {
-            var result = _userDal.Get(u=>u.UserId== id);
+            var result = _userDal.Get(u=>u.Id== id);
             return new SuccessDataResult<User>(result);
         }
 
@@ -37,18 +38,29 @@ namespace BusinessLayer.Concrete
             return new SuccessDataResult<List<User>>(result);
         }
 
-        [ValidationAspect(typeof(UserValidator))]
+        
         public IResult Insert(User entity)
         {
             _userDal.Add(entity);
             return new SuccessResult();
         }
 
-        [ValidationAspect(typeof(UserValidator))]
+        
         public IResult Update(User entity)
         {
             _userDal.Update(entity);
             return new SuccessResult();
+        }
+        public IDataResult<List<OperationClaim>> GetClaims(User user)
+        {
+
+            var result = _userDal.GetClaims(user);
+            return new SuccessDataResult<List<OperationClaim>>(result);
+        }
+        public IDataResult<User> GetByMail(string email)
+        {
+            var result = _userDal.Get(u => u.Email == email);
+            return new SuccessDataResult<User>(result);
         }
     }
 }

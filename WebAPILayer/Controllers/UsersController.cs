@@ -1,4 +1,5 @@
-﻿using BusinessLayer.Abstract;
+﻿using Base.EntitiesBase.Concrete;
+using BusinessLayer.Abstract;
 using EntityLayer.Concrete;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;

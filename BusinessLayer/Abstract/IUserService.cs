@@ -1,5 +1,7 @@
 ﻿using Base.BusinessBase;
 using Base.DataAccessBase;
+using Base.EntitiesBase.Concrete;
+using Base.Utilities.Results;
 using EntityLayer.Concrete;
 using System;
 using System.Collections.Generic;
@@ -10,6 +12,9 @@ using System.Threading.Tasks;
 namespace BusinessLayer.Abstract
 {
     public interface IUserService : IGenericService<User>
-    { 
+    {
+        IDataResult<List<OperationClaim>> GetClaims(User user);
+
+        IDataResult<User> GetByMail(string email);
     }
 }
