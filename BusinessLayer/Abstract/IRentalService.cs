@@ -14,5 +14,6 @@ namespace BusinessLayer.Abstract
     public interface IRentalService : IGenericService<Rental>
     {
         IDataResult<RentalDetailDto> GetAllRentalDetails(int id);
+        IDataResult<List<RentalDetail2Dto>> GetAllRentalDetails2();
     }
 }

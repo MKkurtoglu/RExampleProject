@@ -15,5 +15,6 @@ namespace DataAccessLayer.Abstract
     public interface IRentalDal : IGenericDal<Rental>
     {
         RentalDetailDto GetRentalDetail(Expression<Func<RentalDetailDto, bool>> filter);
+        List<RentalDetail2Dto> GetRentals();
     }
 }

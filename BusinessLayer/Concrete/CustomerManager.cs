@@ -9,15 +9,19 @@ using System.Text;
 using System.Threading.Tasks;
 using Base.Aspects.Autofac.Validation;
 using BusinessLayer.ValidationRules.FluentValidation;
+using BusinessLayer.BusinessAspects.Autofac;
+using EntityLayer.DTOs;
 
 namespace BusinessLayer.Concrete
 {
     public class CustomerManager : ICustomerService
     {
         ICustomerDal _customerDal;
-        public CustomerManager(ICustomerDal customerDal)
+        private IUserService _userService;
+        public CustomerManager(ICustomerDal customerDal,IUserService userService)
         {
             _customerDal= customerDal;
+            _userService= userService;
         }
         public IResult Delete(Customer entity)
         {
@@ -34,13 +38,20 @@ namespace BusinessLayer.Concrete
             }
             return new SuccessDataResult<Customer>(result);
         }
-
+        [SecuredOperation("admin")]
         public IDataResult<List<Customer>> GetAll()
         {
             var result = _customerDal.GetAll();
             return new SuccessDataResult<List<Customer>>(result);
         }
 
+        public IDataResult<List<CustomerDto>> GetCustomersDetails()
+        {
+            var result = _customerDal.GetCustomerDetails();
+            return new SuccessDataResult<List<CustomerDto>>(result);
+        }
+
+        [SecuredOperation("admin")]
         [ValidationAspect(typeof(CustomerValidator))]
         public IResult Insert(Customer entity)
         {

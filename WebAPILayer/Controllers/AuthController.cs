@@ -1,5 +1,6 @@
 ﻿using BusinessLayer.Abstract;
 using EntitiesLayer.DTOs;
+using EntityLayer.DTOs;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -28,10 +29,10 @@ namespace WebAPI.Controllers
             var result = _authService.CreateAccessToken(userToLogin.Data);
             if (result.IsSuccess)
             {
-                return Ok(result.Data);
+                return Ok(result);
             }
 
-            return BadRequest(result.Message);
+            return BadRequest(result);
         }
 
         [HttpPost("register")]
@@ -47,10 +48,21 @@ namespace WebAPI.Controllers
             var result = _authService.CreateAccessToken(registerResult.Data);
             if (result.IsSuccess)
             {
-                return Ok(result.Data);
+                return Ok(result);
             }
 
-            return BadRequest(result.Message);
+            return BadRequest(result);
+        }
+
+        [HttpPost("updateUser")]
+        public ActionResult UpdateUser(UserForUpdateDto userForUpdateDto)
+        {
+            var result = _authService.UpdateUser(userForUpdateDto);
+            if (result.IsSuccess)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
         }
     }
 }

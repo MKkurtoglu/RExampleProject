@@ -1,7 +1,10 @@
 ﻿using Base.EntitiesBase.Concrete;
 using Base.Extensions;
+using Base.Utilities.IoC;
 using Base.Utilities.Security.Encryption;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -13,9 +16,12 @@ namespace Base.Utilities.Security.JWT
         public IConfiguration Configuration { get; }
         private TokenOptions _tokenOptions;
         private DateTime _accessTokenExpiration;
+        private IHttpContextAccessor _httpContextAccessor;
+
         public JwtHelper(IConfiguration configuration)
         {
             Configuration = configuration;
+            _httpContextAccessor = ServiceTool.ServiceProvider.GetService<IHttpContextAccessor>();
             _tokenOptions = Configuration.GetSection("TokenOptions").Get<TokenOptions>();
 
         }
@@ -59,6 +65,14 @@ namespace Base.Utilities.Security.JWT
             claims.AddRoles(operationClaims.Select(c => c.Name).ToArray());
 
             return claims;
+        }
+
+        public string GetId()
+        {
+           var userId =_httpContextAccessor.HttpContext.User.FindId();
+            
+            return userId;
+              
         }
     }
 }

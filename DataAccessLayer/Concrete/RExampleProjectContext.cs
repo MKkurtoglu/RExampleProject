@@ -11,6 +11,11 @@ namespace DataAccessLayer.Concrete
 {
     public class RExampleProjectContext : DbContext
     {
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            // CarImage sınıfında ImageId birincil anahtar olarak belirlenmiştir
+            modelBuilder.Entity<CarImage>().HasKey(ci => ci.ImageId);
+        }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseSqlServer(@"server=DESKTOP-F2H9TMP;database=DbRExample;integrated security=true;Trusted_Connection=True;encrypt=false;");
@@ -24,5 +29,8 @@ namespace DataAccessLayer.Concrete
         public DbSet<OperationClaim> OperationClaims { get; set; }
         public DbSet<User> Users { get; set; }
         public DbSet<UserOperationClaim> UserOperationClaims { get; set; }
+        public DbSet<CarImage> CarImages { get; set; }
+        public DbSet<Card> Cards{ get; set; }
+        public DbSet<ProfileImage> ProfileImages{ get; set; }
     }
 }

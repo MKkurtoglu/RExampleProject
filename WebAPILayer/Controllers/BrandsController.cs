@@ -54,7 +54,7 @@ namespace WebAPILayer.Controllers
             }
             return BadRequest();
         }
-        [HttpPost("deleteBrand")]
+        [HttpDelete("deleteBrand")]
         public IActionResult DeleteBrand(int id)
         {
             var result = _brandService.Get(id);

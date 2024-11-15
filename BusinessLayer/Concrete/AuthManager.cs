@@ -1,11 +1,13 @@
 ﻿using Azure.Core;
 using Base.EntitiesBase.Concrete;
+using Base.Utilities.Business;
 using Base.Utilities.Results;
 using Base.Utilities.Security.Hashing;
 using Base.Utilities.Security.JWT;
 using BusinessLayer.Abstract;
 using BusinessLayer.Constants;
 using EntitiesLayer.DTOs;
+using EntityLayer.DTOs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -60,7 +62,7 @@ namespace BusinessLayer.Concrete
 
         public IResult UserExists(string email)
         {
-            if (_userService.GetByMail(email) != null)
+            if (_userService.GetByMail(email).IsSuccess == true)
             {
                 return new ErrorResult(Messages.UserAlreadyExists);
             }
@@ -74,6 +76,44 @@ namespace BusinessLayer.Concrete
             return new SuccessDataResult<Base.Utilities.Security.JWT.AccessToken>(accessToken, Messages.AccessTokenCreated);
         }
 
-       
+        public IResult UpdateUser(UserForUpdateDto userForUpdateDto)
+        {
+            IResult checkNullResult = CheckNull<UserForUpdateDto>(userForUpdateDto);
+            IResult[] metot = new[] { checkNullResult }; // Diziyi doğru tanımla
+
+            var resultRun = BusinessRule.Run(metot);
+            if (resultRun.IsSuccess != false)
+            {
+ var user = _userService.GetById();
+            if (user != null)
+            {
+                user.Data.FirstName = userForUpdateDto.FirstName;
+                user.Data.LastName = userForUpdateDto.LastName;
+                user.Data.Email = userForUpdateDto.Email;
+                var result=_userService.Update(user.Data);
+                if (result.IsSuccess)
+                {
+return new SuccessResult("Kullanıcı Güncellendi");
+                }
+                return new ErrorResult("Kullanıcı Güncellenme İşlemi Başarısız");
+            }
+            return new ErrorResult("Kullanıcı Güncellenme İşlemi Başarısız");
+            }
+           return resultRun;
+        }
+
+        // gelen verinin null olup olmadığını kontrol etme
+
+       private IResult CheckNull<T>(T value)
+        {
+            if (value != null)
+            {
+                return new SuccessResult();
+            }
+            else
+            {
+                return new ErrorResult();
+            }
+        }
     }
 }

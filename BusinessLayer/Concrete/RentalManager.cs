@@ -23,39 +23,53 @@ namespace BusinessLayer.Concrete
         public IResult Delete(Rental entity)
         {
 
-            
 
-_rentalDal.Delete(entity)            ;
+
+            _rentalDal.Delete(entity);
             return new SuccessResult();
         }
 
         public IDataResult<Rental> Get(int id)
         {
-            var result = _rentalDal.Get(r=>r.RentalId== id);
-            
+            var result = _rentalDal.Get(r => r.RentalId == id);
+
             return new SuccessDataResult<Rental>(result);
         }
 
         public IDataResult<List<Rental>> GetAll()
         {
-            var result = _rentalDal.GetAll(r=>r.ReturnDate!=null ||r.Status==true);
-            
-            return new SuccessDataResult<List<Rental>>();
+            var result = _rentalDal.GetAll(r => r.ReturnDate != null || r.Status == true);
+
+            return new SuccessDataResult<List<Rental>>(result);
         }
 
         public IDataResult<RentalDetailDto> GetAllRentalDetails(int id)
         {
-            var result = _rentalDal.GetRentalDetail(r=>r.CustomerId==id);
+            var result = _rentalDal.GetRentalDetail(r => r.CustomerId == id);
             return new SuccessDataResult<RentalDetailDto>(result);
         }
+
+        public IDataResult<List<RentalDetail2Dto>> GetAllRentalDetails2()
+        {
+            var result = _rentalDal.GetRentals();
+            return new SuccessDataResult<List<RentalDetail2Dto>>(result);
+        }
+
         [ValidationAspect(typeof(RentalValidator))]
         public IResult Insert(Rental entity)
         {
-            if (entity.Status==true || entity.CarId!=null ||entity.ReturnDate!=null)
+
+
+
+
+            if (entity.CarId != null || entity.ReturnDate != null)
             {
-                _rentalDal.Add(entity);
+                entity.Status = true;
+                _rentalDal.Add(entity
+
+                );
             }
-            
+
             return new SuccessResult();
         }
 

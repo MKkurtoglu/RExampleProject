@@ -25,6 +25,17 @@ namespace WebAPILayer.Controllers
             }
             return BadRequest();
         }
+
+        [HttpGet("getProfileUser")]
+        public IActionResult GetProfileUser()
+        {
+            var result = _userService.GetDto();
+            if (result.IsSuccess)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
+        }
         [HttpGet("getAll")]
         public IActionResult GetAll()
         {
@@ -50,21 +61,21 @@ namespace WebAPILayer.Controllers
         {
             var result = _userService.Get(id);
             var result2 = _userService.Delete(result.Data);
-            if(result2.IsSuccess)
+            if (result2.IsSuccess)
             {
                 return Ok(result2);
             }
             return BadRequest();
         }
         [HttpPost("updateUser")]
-        public IActionResult UpateUser(User user)
+        public IActionResult UpdateUser(User user)
         {
             var result = _userService.Update(user);
             if (result.IsSuccess)
             {
                 return Ok(result);
             }
-            return BadRequest();
+            return BadRequest(result);
         }
     }
 }

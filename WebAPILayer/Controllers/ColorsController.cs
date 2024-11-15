@@ -45,7 +45,7 @@ namespace WebAPILayer.Controllers
             }
             return BadRequest();
         }
-        [HttpPost("deleteColor")]
+        [HttpDelete("deleteColor")]
         public IActionResult DeleteColor(int id)
         {
             var result = _colorService.Get(id);

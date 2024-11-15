@@ -10,27 +10,41 @@ using System.Threading.Tasks;
 using Base.Aspects.Autofac.Validation;
 using BusinessLayer.ValidationRules.FluentValidation;
 using Base.EntitiesBase.Concrete;
+using BusinessLayer.BusinessAspects.Autofac;
+using Base.Utilities.Security.JWT;
+using EntityLayer.DTOs;
+using Microsoft.AspNetCore.Http;
+using Base.Extensions;
 
 namespace BusinessLayer.Concrete
 {
+
     public class UserManager : IUserService
     {
         IUserDal _userDal;
-        public UserManager(IUserDal userDal)
+        ITokenHelper _tokenHelper;
+        private readonly IHttpContextAccessor _httpContextAccessor;
+        public UserManager(IUserDal userDal,ITokenHelper tokenHelper, IHttpContextAccessor httpContextAccessor)
         {
             _userDal= userDal;
+            _tokenHelper= tokenHelper;
+            _httpContextAccessor= httpContextAccessor;
         }
         public IResult Delete(User entity)
         {
             _userDal.Delete(entity);
             return new SuccessResult();
         }
-
+        [SecuredOperation("admin,customer")]
         public IDataResult<User> Get(int id)
         {
-            var result = _userDal.Get(u=>u.Id== id);
+            var ıd=_tokenHelper.GetId();
+            var userId = int.Parse(ıd);
+            var result = _userDal.Get(u=>u.Id== userId);
             return new SuccessDataResult<User>(result);
         }
+
+
 
         public IDataResult<List<User>> GetAll()
         {
@@ -60,6 +74,30 @@ namespace BusinessLayer.Concrete
         public IDataResult<User> GetByMail(string email)
         {
             var result = _userDal.Get(u => u.Email == email);
+            if (result==null)
+            {
+                return new ErrorDataResult<User>(result);
+            }
+            return new SuccessDataResult<User>(result);
+        }
+        [SecuredOperation("admin,customer")]
+        public IDataResult<UserProfileDto> GetDto()
+        {
+            var id = _httpContextAccessor.HttpContext.User.FindId();
+            var userId = int.Parse(id);
+            var result=_userDal.GetProfileDto(userId);
+            if (result == null) 
+            {
+            return new ErrorDataResult<UserProfileDto>("Kullanıcı Bilgileri Bulunamadı");
+            }
+            return new SuccessDataResult<UserProfileDto>("Kullanıcı Bilgileri Alındı");
+        }
+
+        public IDataResult<User> GetById()
+        {
+            var ıd = _tokenHelper.GetId();
+            var userId = int.Parse(ıd);
+            var result = _userDal.Get(u => u.Id == userId);
             return new SuccessDataResult<User>(result);
         }
     }

@@ -1,7 +1,9 @@
 ﻿using Autofac;
 using Autofac.Extras.DynamicProxy;
 using Base.Utilities.Interceptors;
+using Base.Utilities.Security.JWT;
 using BusinessLayer.Abstract;
+using BusinessLayer.BusinessHelper;
 using BusinessLayer.Concrete;
 using Castle.DynamicProxy;
 using DataAccessLayer.Abstract;
@@ -33,8 +35,29 @@ namespace BusinessLayer.DependencyResolvers.Autofac
             builder.RegisterType<RentalManager>().As<IRentalService>().SingleInstance();
             builder.RegisterType<EfRentalDal>().As<IRentalDal>().SingleInstance();
 
-            builder.RegisterType<UserManager>().As<IUserService>().SingleInstance();
-            builder.RegisterType<EfUserDal>().As<IUserDal>().SingleInstance();
+            builder.RegisterType<UserManager>().As<IUserService>();
+            builder.RegisterType<EfUserDal>().As<IUserDal>();
+
+            builder.RegisterType<AuthManager>().As<IAuthService>();
+            builder.RegisterType<JwtHelper>().As<ITokenHelper>();
+
+            builder.RegisterType<CarImageManager>().As<ICarImageService>();
+            builder.RegisterType<EfCarImageDal>().As<ICarImageDal>();
+
+            builder.RegisterType<ProfileImageManager>().As<IProfileImageService>();
+            builder.RegisterType<EfProfileImageDal>().As<IProfileImageDal>();
+
+            builder.RegisterType<VerifyCodeHelper>().As<IVerifyHelper>();
+            builder.RegisterType<PaySystemManager>().As<PaySystemService>();
+            builder.RegisterType<EfCardDal>().As<ICardDal>();
+            builder.RegisterType<CodeHelper>().As<ICodeHelper>();
+           
+
+
+
+
+
+
 
 
             var assembly = System.Reflection.Assembly.GetExecutingAssembly(); // assembly getirri hangi assembly peki ? içerisinde çalışan elemanların oldğu amssbly döner..

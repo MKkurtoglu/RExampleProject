@@ -20,7 +20,7 @@ namespace EntityLayer.Concrete
         public int DailyPrice { get; set; }
         public string Description { get; set; }
         
-        
+
 
     }
 }

@@ -13,13 +13,26 @@ namespace Base.Utilities.Business
         {
             foreach (var result in results)
             {
-                if (!result.IsSuccess)
+                if (result != null)
                 {
                     return result;
                 }
 
             }
             return null;
+        }
+
+
+        public static IResult Run(IEnumerable<IResult> results)
+        {
+            foreach (var result in results)
+            {
+                if (result != null && !result.IsSuccess)
+                {
+                    return result;  // İlk başarısız sonucu döner
+                }
+            }
+            return new SuccessResult(); // Tüm sonuçlar başarılıysa başarı sonucu döner
         }
     }
 }

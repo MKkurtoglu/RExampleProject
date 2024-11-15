@@ -37,6 +37,16 @@ namespace WebAPILayer.Controllers
             }
             return BadRequest(result);
         }
+        [HttpGet("getAllDetails")]
+        public IActionResult GetAllDetails()
+        {
+            var result = _customerService.GetCustomersDetails();
+            if (result.IsSuccess)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
+        }
         [HttpPost("deleteCustomer")]
         public IActionResult DeleteCustomer(int id)
         {

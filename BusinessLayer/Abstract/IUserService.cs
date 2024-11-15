@@ -3,6 +3,7 @@ using Base.DataAccessBase;
 using Base.EntitiesBase.Concrete;
 using Base.Utilities.Results;
 using EntityLayer.Concrete;
+using EntityLayer.DTOs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,5 +17,7 @@ namespace BusinessLayer.Abstract
         IDataResult<List<OperationClaim>> GetClaims(User user);
 
         IDataResult<User> GetByMail(string email);
+         IDataResult<UserProfileDto> GetDto();
+         IDataResult<User> GetById();
     }
 }

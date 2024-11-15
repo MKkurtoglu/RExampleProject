@@ -8,10 +8,15 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Autofac" Version="8.0.0" />
+    <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="9.0.0" />
+    <PackageReference Include="Autofac.Extras.DynamicProxy" Version="7.1.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.7" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.5">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="Microsoft.IdentityModel.Tokens" Version="7.6.3" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
   </ItemGroup>
 
@@ -20,6 +25,19 @@
     <ProjectReference Include="..\BusinessLayer\BusinessLayer.csproj" />
     <ProjectReference Include="..\DataAccessLayer\DataAccessLayer.csproj" />
     <ProjectReference Include="..\EntityLayer\EntityLayer.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\images\37b2b347-7bf9-4e16-8779-164049815896.jpeg" />
+    <None Include="wwwroot\images\7b99effd-8702-47eb-8a05-8a2ce904722e.png" />
+    <None Include="wwwroot\images\94524361-0431-4013-b45d-326a51b36863.png" />
+    <None Include="wwwroot\images\a9164c08-09d8-49c9-a801-92b4f1d351c4.png" />
+    <None Include="wwwroot\images\f7fb029c-0714-4bc3-8e9e-a31da6ce7bf2.jpg" />
+    <None Include="wwwroot\images\Linkedin[1].jpg" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\images\profile\" />
   </ItemGroup>
 
 </Project>

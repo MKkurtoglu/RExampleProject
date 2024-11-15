@@ -2,6 +2,7 @@
 using Base.EntitiesBase.Concrete;
 using Base.Utilities.Results;
 using EntitiesLayer.DTOs;
+using EntityLayer.DTOs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,5 +17,7 @@ namespace BusinessLayer.Abstract
         IDataResult<User> Login(UserForLoginDto userForLoginDto);
         IResult UserExists(string email);
         IDataResult<Base.Utilities.Security.JWT.AccessToken> CreateAccessToken(User user);
+
+        IResult UpdateUser(UserForUpdateDto userForUpdateDto);
     }
 }
